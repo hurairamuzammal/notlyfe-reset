@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Password — Notlyfe</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f172a 60%, #030712 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: rgba(15, 23, 42, 0.65);
+      --input-border: rgba(71, 85, 105, 0.5);
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #090d16;
+      background-image: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Decorative Glows */
+    .ambient-glow-1 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+      top: 15%;
+      left: 10%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+      bottom: 15%;
+      right: 10%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 42px 36px;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .brand-logo {
+      font-family: 'Caveat', cursive;
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      user-select: none;
+    }
+
+    .title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 14px 46px 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 0 0 4px var(--accent-glow);
+    }
+
+    .input-wrapper input::placeholder {
+      color: #64748b;
+    }
+
+    .toggle-visibility {
+      position: absolute;
+      right: 14px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .toggle-visibility:hover {
+      color: var(--text-main);
+    }
+
+    .toggle-visibility svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .helper-text {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.45);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px -4px rgba(2, 132, 199, 0.6);
+    }
+
+    .btn-submit:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      background: #334155;
+      color: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Alerts and Feedback */
+    .alert {
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-bottom: 22px;
+      display: none;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+    }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      text-align: center;
+    }
+
+    .alert-info {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      display: block;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Success Icon Animation */
+    .success-icon-wrapper {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px auto;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .success-icon-wrapper svg {
+      width: 36px;
+      height: 36px;
+      stroke: #10b981;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn-open-app {
+      display: inline-block;
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      text-align: center;
+      box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.45);
+      transition: all 0.2s ease;
+    }
+
+    .btn-open-app:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px -4px rgba(16, 185, 129, 0.6);
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="card-container">
+    <div class="header">
+      <div class="brand-logo">Notlyfe</div>
+      <h1 class="title">Create New Password</h1>
+      <p class="subtitle">Enter your new secure password below to regain access to your account.</p>
+    </div>
+
+    <div id="alert-box" class="alert"></div>
+
+    <form id="reset-form">
+      <div class="form-group">
+        <label for="new-password">New Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="new-password" placeholder="Minimum 6 characters" required minlength="6" autocomplete="new-password">
+          <button type="button" class="toggle-visibility" onclick="togglePassword('new-password', this)" title="Show/Hide">
+            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
+        <div class="helper-text">Must be at least 6 characters</div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm New Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="confirm-password" placeholder="Re-enter your password" required minlength="6" autocomplete="new-password">
+          <button type="button" class="toggle-visibility" onclick="togglePassword('confirm-password', this)" title="Show/Hide">
+            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn-submit">
+        <div id="btn-spinner" class="spinner"></div>
+        <span id="btn-text">Update Password</span>
+      </button>
+    </form>
+
+    <div id="success-view" style="display: none; text-align: center;">
+      <div class="success-icon-wrapper">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: #f8fafc; margin-bottom: 8px;">Password Updated!</h2>
+      <p style="font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 8px;">
+        Your password has been changed successfully. You can now return to the Notlyfe app and sign in with your new credentials.
+      </p>
+      <a href="notlyfe://" class="btn-open-app">Open Notlyfe App</a>
+    </div>
+
+    <div class="footer-note">
+      End-to-end encrypted &bull; Secured with Supabase Auth
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://ldnlbuextqhnslzephpu.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkbmxidWV4dHFobnNsemVwaHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5NTM4NzEsImV4cCI6MjEwNzUyOTg3MX0.6ET6oBSNWGqKc5rIFGkTOzv1vpGV2d_EP6d-hD2mSGk";
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const alertBox = document.getElementById("alert-box");
+    const form = document.getElementById("reset-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const btnSpinner = document.getElementById("btn-spinner");
+    const btnText = document.getElementById("btn-text");
+    const successView = document.getElementById("success-view");
+
+    function showAlert(msg, type) {
+      alertBox.innerHTML = msg;
+      alertBox.className = "alert " + (type === "error" ? "alert-error" : type === "success" ? "alert-success" : "alert-info");
+      alertBox.style.display = "block";
+    }
+
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      btn.innerHTML = isPassword
+        ? `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
+        : `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    }
+
+    // Initialize session from URL parameters (hash or query)
+    async function initSession() {
+      // 1. Check for PKCE 'code'
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get("code");
+      if (code) {
+        try {
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            showAlert("Could not verify recovery link: " + error.message, "error");
+            return;
+          }
+        } catch (e) {
+          showAlert("Error parsing authentication code: " + e.message, "error");
+          return;
+        }
+      }
+
+      // 2. Check for token_hash & type=recovery
+      const tokenHash = urlParams.get("token_hash");
+      const type = urlParams.get("type");
+      if (tokenHash && type === "recovery") {
+        try {
+          const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "recovery" });
+          if (error) {
+            showAlert("Could not verify recovery token: " + error.message, "error");
+            return;
+          }
+        } catch (e) {
+          showAlert("Error validating token: " + e.message, "error");
+          return;
+        }
+      }
+
+      // 3. Check for fragment hash (#access_token=...&refresh_token=...)
+      if (window.location.hash) {
+        const hash = window.location.hash.substring(1);
+        const hashParams = new URLSearchParams(hash);
+        const errorDesc = hashParams.get("error_description");
+        const accessToken = hashParams.get("access_token");
+        const refreshToken = hashParams.get("refresh_token");
+
+        if (errorDesc) {
+          showAlert("Invalid or expired link: " + decodeURIComponent(errorDesc.replace(/\+/g, " ")), "error");
+          return;
+        }
+
+        if (accessToken && refreshToken) {
+          try {
+            await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+          } catch (e) {
+            console.error("setSession error", e);
+          }
+        }
+      }
+    }
+
+    initSession();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const pwd = document.getElementById("new-password").value.trim();
+      const confirmPwd = document.getElementById("confirm-password").value.trim();
+
+      if (pwd.length < 6) {
+        showAlert("Password must be at least 6 characters long.", "error");
+        return;
+      }
+
+      if (pwd !== confirmPwd) {
+        showAlert("Passwords do not match. Please ensure both fields are identical.", "error");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      btnSpinner.style.display = "block";
+      btnText.textContent = "Updating Password...";
+      alertBox.style.display = "none";
+
+      try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (!sessionData || !sessionData.session) {
+          showAlert("No active recovery session found. Please click the reset link in your email again or request a new one.", "error");
+          submitBtn.disabled = false;
+          btnSpinner.style.display = "none";
+          btnText.textContent = "Update Password";
+          return;
+        }
+
+        const { data, error } = await supabase.auth.updateUser({ password: pwd });
+        if (error) {
+          showAlert(error.message, "error");
+          submitBtn.disabled = false;
+          btnSpinner.style.display = "none";
+          btnText.textContent = "Update Password";
+        } else {
+          // Success! Switch to success view
+          form.style.display = "none";
+          successView.style.display = "block";
+        }
+      } catch (err) {
+        showAlert("An unexpected error occurred: " + err.message, "error");
+        submitBtn.disabled = false;
+        btnSpinner.style.display = "none";
+        btnText.textContent = "Update Password";
+      }
+    });
+  </script>
+</body>
+</html>
