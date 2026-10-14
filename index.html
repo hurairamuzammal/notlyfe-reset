@@ -7,12 +7,10 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Reset your password — Notlyfe</title>
-  <!-- Google Fonts: Roboto & Outfit (Clean Android / Material 3 Style) -->
+  <!-- Google Fonts: Caveat (App Brand font) & Roboto (Android clean font) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Supabase JS Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f8f9fa;
@@ -25,8 +23,6 @@
       --primary: #b45309;
       --primary-hover: #92400e;
       --primary-focus-ring: rgba(180, 83, 9, 0.18);
-      --amber-accent: #f59e0b;
-      --amber-light: #fef3c7;
       
       --color-weak: #d93025;
       --color-fair: #f59e0b;
@@ -55,12 +51,12 @@
     /* Minimal, Clean Android Style Card */
     .card {
       width: 100%;
-      max-width: 520px; /* Increased width as requested */
+      max-width: 520px; /* Wider card width */
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px; /* Clean standard M3 radius, not oversized bubble */
+      border-radius: 16px;
       padding: 36px 32px;
-      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 4px 8px rgba(60, 64, 67, 0.04);
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 4px 12px rgba(60, 64, 67, 0.05);
       margin: auto;
     }
 
@@ -72,22 +68,23 @@
     .brand-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
     .brand-logo-img {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 8px;
       object-fit: contain;
     }
 
     .brand-name {
-      font-size: 20px;
+      font-family: 'Caveat', cursive; /* Exact Notlyfe app font */
+      font-size: 34px;
       font-weight: 700;
       color: var(--primary);
-      letter-spacing: -0.2px;
+      line-height: 1;
     }
 
     .title {
@@ -128,7 +125,7 @@
       height: 48px;
       padding: 12px 44px 12px 14px;
       border: 1px solid #747775;
-      border-radius: 8px; /* Clean Android input shape */
+      border-radius: 8px;
       font-size: 15px;
       color: var(--text-primary);
       background: #ffffff;
@@ -139,7 +136,7 @@
 
     .input-box input:focus {
       border: 2px solid var(--border-focus);
-      padding-left: 13px; /* Offset 1px for 2px border */
+      padding-left: 13px;
       box-shadow: 0 0 0 3px var(--primary-focus-ring);
     }
 
@@ -213,7 +210,7 @@
       transition: background-color 0.2s ease;
     }
 
-    /* Requirements: One per line as explicitly requested */
+    /* Requirements: Strictly One per line */
     .req-list {
       display: flex;
       flex-direction: column;
@@ -230,20 +227,18 @@
     }
 
     .req-icon {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
+      width: 16px;
+      height: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       color: var(--text-tertiary);
-      transition: all 0.15s ease;
     }
 
     .req-icon svg {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       stroke: currentColor;
       stroke-width: 2.5;
       fill: none;
@@ -261,28 +256,25 @@
     /* Clean Android Primary Button */
     .btn-primary {
       width: 100%;
-      height: 46px;
+      height: 48px;
       background: var(--primary);
       color: #ffffff;
       border: none;
-      border-radius: 8px; /* Clean Android standard button */
+      border-radius: 8px;
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       transition: background-color 0.15s;
+      font-family: inherit;
     }
 
     .btn-primary:hover:not(:disabled) {
       background: var(--primary-hover);
-    }
-
-    .btn-primary:active:not(:disabled) {
-      background: #78350f;
     }
 
     .btn-primary:disabled {
@@ -299,9 +291,6 @@
       margin-bottom: 18px;
       display: none;
       line-height: 1.4;
-    }
-
-    .alert-error {
       background: #fce8e6;
       color: #c5221f;
       border: 1px solid #fad2cf;
@@ -321,11 +310,11 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Success Panel: Strictly in-card */
-    #success-panel {
+    /* Success Section: Hidden by default with inline style + CSS */
+    #success-section {
       display: none;
       text-align: center;
-      padding: 12px 0 6px 0;
+      padding: 16px 0 8px 0;
     }
 
     .success-badge {
@@ -369,7 +358,7 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 46px;
+      height: 48px;
       background: var(--primary);
       color: #ffffff;
       text-decoration: none;
@@ -390,7 +379,7 @@
     <!-- Brand / Header -->
     <div class="header">
       <div class="brand-row">
-        <img src="logo.png" alt="Notlyfe" class="brand-logo-img" onerror="this.style.display='none'">
+        <img src="logo.png" alt="Notlyfe Logo" class="brand-logo-img" onerror="this.style.display='none'">
         <span class="brand-name">Notlyfe</span>
       </div>
       <h1 class="title">Reset your password</h1>
@@ -398,18 +387,18 @@
     </div>
 
     <!-- Alert Box for Errors -->
-    <div id="alert-box" class="alert-banner alert-error"></div>
+    <div id="alert-box" class="alert-banner"></div>
 
     <!-- Form Section -->
     <div id="form-section">
-      <form id="reset-form" autocomplete="off">
+      <form id="reset-form" onsubmit="handleReset(event)" autocomplete="off">
         
         <!-- New Password Field -->
         <div class="form-group">
           <label for="new-password" class="field-label">New password</label>
           <div class="input-box">
-            <input type="password" id="new-password" placeholder="Enter new password" required autocomplete="new-password">
-            <button type="button" class="btn-eye" id="toggle-new" title="Show password">
+            <input type="password" id="new-password" placeholder="Enter new password" required autocomplete="new-password" oninput="updateStrength()" onkeyup="updateStrength()" onchange="updateStrength()" onpaste="setTimeout(updateStrength, 10)">
+            <button type="button" class="btn-eye" id="toggle-new" onclick="togglePwd('new-password', this)" title="Show/Hide">
               <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </div>
@@ -430,19 +419,19 @@
             <div class="req-list">
               <div class="req-item" id="req-length">
                 <span class="req-icon" id="icon-length">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
                 </span>
                 <span>At least 8 characters</span>
               </div>
               <div class="req-item" id="req-case">
                 <span class="req-icon" id="icon-case">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
                 </span>
                 <span>Uppercase &amp; lowercase letters</span>
               </div>
               <div class="req-item" id="req-special">
                 <span class="req-icon" id="icon-special">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
                 </span>
                 <span>Special char or number</span>
               </div>
@@ -455,7 +444,7 @@
           <label for="confirm-password" class="field-label">Confirm new password</label>
           <div class="input-box">
             <input type="password" id="confirm-password" placeholder="Re-enter new password" required autocomplete="new-password">
-            <button type="button" class="btn-eye" id="toggle-confirm" title="Show password">
+            <button type="button" class="btn-eye" id="toggle-confirm" onclick="togglePwd('confirm-password', this)" title="Show/Hide">
               <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </div>
@@ -469,8 +458,8 @@
       </form>
     </div>
 
-    <!-- Success Section (Never collapses the card, revealed cleanly inside) -->
-    <div id="success-section">
+    <!-- Success Section (EXPLICITLY HIDDEN INITIALLY) -->
+    <div id="success-section" style="display: none;">
       <div class="success-badge">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
@@ -483,128 +472,100 @@
   </div>
 
   <script>
+    // Supabase Configuration
     const SUPABASE_URL = "https://ldnlbuextqhnslzephpu.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkbmxidWV4dHFobnNsemVwaHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5NTM4NzEsImV4cCI6MjEwNzUyOTg3MX0.6ET6oBSNWGqKc5rIFGkTOzv1vpGV2d_EP6d-hD2mSGk";
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Elements
-    const formSection = document.getElementById("form-section");
-    const successSection = document.getElementById("success-section");
-    const resetForm = document.getElementById("reset-form");
-    const alertBox = document.getElementById("alert-box");
-
-    const newPwd = document.getElementById("new-password");
-    const confirmPwd = document.getElementById("confirm-password");
-    const submitBtn = document.getElementById("submit-btn");
-    const btnSpinner = document.getElementById("btn-spinner");
-    const btnText = document.getElementById("btn-text");
-
-    const bar1 = document.getElementById("bar-1");
-    const bar2 = document.getElementById("bar-2");
-    const bar3 = document.getElementById("bar-3");
-    const strengthText = document.getElementById("strength-text");
-
-    const reqLength = document.getElementById("req-length");
-    const reqCase = document.getElementById("req-case");
-    const reqSpecial = document.getElementById("req-special");
-
-    const iconLength = document.getElementById("icon-length");
-    const iconCase = document.getElementById("icon-case");
-    const iconSpecial = document.getElementById("icon-special");
-
     const CHECKMARK_SVG = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-    const DOT_SVG = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>';
+    const DOT_SVG = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>';
 
-    function showAlert(msg) {
-      alertBox.textContent = msg;
-      alertBox.style.display = "block";
-    }
-
-    function hideAlert() {
-      alertBox.style.display = "none";
-    }
-
-    // Toggle Eye Buttons
-    function setupToggle(btnId, inputId) {
-      const btn = document.getElementById(btnId);
+    // Toggle Password Visibility
+    function togglePwd(inputId, btn) {
       const input = document.getElementById(inputId);
-      btn.addEventListener("click", () => {
-        const isPwd = input.type === "password";
-        input.type = isPwd ? "text" : "password";
-        btn.innerHTML = isPwd
-          ? '<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
-          : '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
-      });
+      const isPwd = input.type === "password";
+      input.type = isPwd ? "text" : "password";
+      btn.innerHTML = isPwd
+        ? '<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
     }
-    setupToggle("toggle-new", "new-password");
-    setupToggle("toggle-confirm", "confirm-password");
 
     // 3-Line Strength Logic
     function updateStrength() {
-      const val = newPwd.value || "";
+      const input = document.getElementById("new-password");
+      const val = input ? input.value : "";
 
-      // Criteria Checks
+      const b1 = document.getElementById("bar-1");
+      const b2 = document.getElementById("bar-2");
+      const b3 = document.getElementById("bar-3");
+      const sText = document.getElementById("strength-text");
+
+      const reqLen = document.getElementById("req-length");
+      const reqCs = document.getElementById("req-case");
+      const reqSp = document.getElementById("req-special");
+
+      const iconLen = document.getElementById("icon-length");
+      const iconCs = document.getElementById("icon-case");
+      const iconSp = document.getElementById("icon-special");
+
+      if (!b1 || !b2 || !b3 || !sText) return;
+
       const isLength = val.length >= 8;
       const isCase = /[A-Z]/.test(val) && /[a-z]/.test(val);
       const isSpecial = /[0-9]/.test(val) || /[^A-Za-z0-9]/.test(val);
 
-      // Update Requirement 1: Length
-      reqLength.classList.toggle("met", isLength);
-      iconLength.innerHTML = isLength ? CHECKMARK_SVG : DOT_SVG;
+      // Line 1: Length
+      if (reqLen) reqLen.classList.toggle("met", isLength);
+      if (iconLen) iconLen.innerHTML = isLength ? CHECKMARK_SVG : DOT_SVG;
 
-      // Update Requirement 2: Case
-      reqCase.classList.toggle("met", isCase);
-      iconCase.innerHTML = isCase ? CHECKMARK_SVG : DOT_SVG;
+      // Line 2: Case
+      if (reqCs) reqCs.classList.toggle("met", isCase);
+      if (iconCs) iconCs.innerHTML = isCase ? CHECKMARK_SVG : DOT_SVG;
 
-      // Update Requirement 3: Special or Number
-      reqSpecial.classList.toggle("met", isSpecial);
-      iconSpecial.innerHTML = isSpecial ? CHECKMARK_SVG : DOT_SVG;
+      // Line 3: Special or Number
+      if (reqSp) reqSp.classList.toggle("met", isSpecial);
+      if (iconSp) iconSp.innerHTML = isSpecial ? CHECKMARK_SVG : DOT_SVG;
 
       let score = 0;
       if (isLength) score++;
       if (isCase) score++;
       if (isSpecial) score++;
 
-      // Reset bars
-      bar1.style.backgroundColor = "var(--bar-empty)";
-      bar2.style.backgroundColor = "var(--bar-empty)";
-      bar3.style.backgroundColor = "var(--bar-empty)";
+      // Reset bars to gray
+      b1.style.backgroundColor = "#e0e0e0";
+      b2.style.backgroundColor = "#e0e0e0";
+      b3.style.backgroundColor = "#e0e0e0";
 
       if (val.length === 0) {
-        strengthText.textContent = "Empty";
-        strengthText.style.color = "var(--text-tertiary)";
-      } else if (score === 1 || val.length < 6) {
-        bar1.style.backgroundColor = "var(--color-weak)";
-        strengthText.textContent = "Weak";
-        strengthText.style.color = "var(--color-weak)";
+        sText.textContent = "Empty";
+        sText.style.color = "#80868b";
+      } else if (score <= 1 || val.length < 6) {
+        b1.style.backgroundColor = "#d93025"; // Red
+        sText.textContent = "Weak";
+        sText.style.color = "#d93025";
       } else if (score === 2) {
-        bar1.style.backgroundColor = "var(--color-fair)";
-        bar2.style.backgroundColor = "var(--color-fair)";
-        strengthText.textContent = "Fair";
-        strengthText.style.color = "var(--color-fair)";
+        b1.style.backgroundColor = "#f59e0b"; // Amber
+        b2.style.backgroundColor = "#f59e0b";
+        sText.textContent = "Fair";
+        sText.style.color = "#f59e0b";
       } else if (score === 3) {
-        bar1.style.backgroundColor = "var(--color-strong)";
-        bar2.style.backgroundColor = "var(--color-strong)";
-        bar3.style.backgroundColor = "var(--color-strong)";
-        strengthText.textContent = "Strong";
-        strengthText.style.color = "var(--color-strong)";
+        b1.style.backgroundColor = "#1e8e3e"; // Green
+        b2.style.backgroundColor = "#1e8e3e";
+        b3.style.backgroundColor = "#1e8e3e";
+        sText.textContent = "Strong";
+        sText.style.color = "#1e8e3e";
       }
     }
 
-    // Attach to all input events to guarantee live update
-    ["input", "keyup", "change", "paste"].forEach(evt => {
-      newPwd.addEventListener(evt, () => setTimeout(updateStrength, 10));
-    });
-
-    // Extract access_token from URL (Hash or Query)
+    // Extract Access Token from URL
     function getAccessToken() {
+      // 1. Fragment hash (#access_token=...)
       if (window.location.hash) {
         const hash = window.location.hash.substring(1);
         const params = new URLSearchParams(hash);
         const token = params.get("access_token");
         if (token) return token;
       }
+      // 2. Query search (?access_token=...)
       if (window.location.search) {
         const params = new URLSearchParams(window.location.search);
         const token = params.get("access_token");
@@ -613,30 +574,49 @@
       return null;
     }
 
-    // Check if recovery link carried an error
+    // Check for error in recovery link
     (function checkUrlErrors() {
-      const allParams = new URLSearchParams(window.location.search + "&" + window.location.hash.substring(1));
-      const errorDesc = allParams.get("error_description");
-      if (errorDesc) {
-        showAlert("Link error: " + decodeURIComponent(errorDesc.replace(/\+/g, " ")));
-      }
+      try {
+        const allParams = new URLSearchParams(window.location.search + "&" + window.location.hash.substring(1));
+        const errorDesc = allParams.get("error_description");
+        if (errorDesc) {
+          const alertBox = document.getElementById("alert-box");
+          if (alertBox) {
+            alertBox.textContent = "Link error: " + decodeURIComponent(errorDesc.replace(/\+/g, " "));
+            alertBox.style.display = "block";
+          }
+        }
+      } catch (e) {}
     })();
 
-    // Form Submit Handler
-    resetForm.addEventListener("submit", async (e) => {
+    // Handle Form Submit
+    async function handleReset(e) {
       e.preventDefault();
-      hideAlert();
+
+      const alertBox = document.getElementById("alert-box");
+      const formSection = document.getElementById("form-section");
+      const successSection = document.getElementById("success-section");
+      const submitBtn = document.getElementById("submit-btn");
+      const btnSpinner = document.getElementById("btn-spinner");
+      const btnText = document.getElementById("btn-text");
+
+      const newPwd = document.getElementById("new-password");
+      const confirmPwd = document.getElementById("confirm-password");
+
+      if (alertBox) alertBox.style.display = "none";
 
       const pwd = newPwd.value.trim();
       const cpwd = confirmPwd.value.trim();
 
       if (pwd.length < 6) {
-        showAlert("Password must be at least 6 characters.");
+        alertBox.textContent = "Password must be at least 6 characters.";
+        alertBox.style.display = "block";
         return;
       }
 
       if (pwd !== cpwd) {
-        showAlert("Passwords do not match.");
+        alertBox.textContent = "Passwords do not match.";
+        alertBox.style.display = "block";
         return;
       }
 
@@ -645,25 +625,18 @@
       btnText.textContent = "Saving...";
 
       try {
-        let token = getAccessToken();
-
-        // Fallback: check Supabase session
-        if (!token) {
-          try {
-            const { data } = await supabase.auth.getSession();
-            token = data?.session?.access_token;
-          } catch (_) {}
-        }
+        const token = getAccessToken();
 
         if (!token) {
-          showAlert("Reset session has expired or is missing. Please click the link in your email again.");
+          alertBox.textContent = "Reset session has expired or is missing. Please click the link in your email again.";
+          alertBox.style.display = "block";
           submitBtn.disabled = false;
           btnSpinner.style.display = "none";
           btnText.textContent = "Save password";
           return;
         }
 
-        // Direct authenticated request to Supabase API
+        // Direct authenticated request to Supabase Auth API
         const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
           method: "PUT",
           headers: {
@@ -678,7 +651,8 @@
 
         if (!response.ok) {
           const errMsg = resData.msg || resData.message || resData.error_description || "Could not update password.";
-          showAlert(errMsg);
+          alertBox.textContent = errMsg;
+          alertBox.style.display = "block";
           submitBtn.disabled = false;
           btnSpinner.style.display = "none";
           btnText.textContent = "Save password";
@@ -690,12 +664,13 @@
         successSection.style.display = "block";
 
       } catch (err) {
-        showAlert("An unexpected error occurred: " + err.message);
+        alertBox.textContent = "An unexpected error occurred: " + err.message;
+        alertBox.style.display = "block";
         submitBtn.disabled = false;
         btnSpinner.style.display = "none";
         btnText.textContent = "Save password";
       }
-    });
+    }
   </script>
 </body>
 </html>
