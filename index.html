@@ -4,35 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password — Notlyfe</title>
-  <!-- Google Fonts: Material 3 typography stack -->
+  <!-- Google Fonts: Material 3 Expressive Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      /* Android Material 3 Expressive Palette (Light Mode) */
-      --m3-sys-light-primary: #6750a4;
-      --m3-sys-light-on-primary: #ffffff;
-      --m3-sys-light-primary-container: #eaddff;
-      --m3-sys-light-on-primary-container: #21005d;
-      --m3-sys-light-primary-hover: #533f89;
-      --m3-sys-light-surface: #fdf8fd;
-      --m3-sys-light-surface-container-lowest: #ffffff;
-      --m3-sys-light-surface-container-low: #f7f2fa;
-      --m3-sys-light-surface-container: #f3edf7;
-      --m3-sys-light-surface-container-high: #ece6f0;
-      --m3-sys-light-on-surface: #1d1b20;
-      --m3-sys-light-on-surface-variant: #49454f;
-      --m3-sys-light-outline: #79747e;
-      --m3-sys-light-outline-variant: #cac4d0;
-      --m3-sys-light-error: #ba1a1a;
-      --m3-sys-light-error-container: #ffdad6;
-      --m3-sys-light-on-error-container: #410002;
-      --m3-sys-light-success: #059669;
-      --m3-sys-light-success-container: #d1fae5;
-      --m3-sys-light-on-success-container: #064e3b;
+      /* Notlyfe Yellow with Brownish Material 3 Expressive Palette */
+      --primary-amber: #d97706;
+      --primary-amber-dark: #b45309;
+      --primary-gold: #f59e0b;
+      --primary-gold-bright: #ffb400;
+      --brown-deep: #451a03;
+      --brown-medium: #78350f;
+      --brown-soft: #92400e;
+      --brown-muted: #8c6e58;
+      
+      --bg-cream: #fdfbf7;
+      --card-bg: #ffffff;
+      --card-border: rgba(180, 83, 9, 0.16);
+      --input-bg: #fffdfa;
+      --input-border: #d6cbbf;
+      --input-focus-border: #d97706;
+      --input-focus-ring: rgba(245, 158, 11, 0.2);
+      
+      --m3-error: #ba1a1a;
+      --m3-error-bg: #ffdad6;
+      --m3-error-text: #410002;
+      --m3-success: #059669;
+      --m3-success-bg: #d1fae5;
+      --m3-success-text: #064e3b;
     }
 
     * {
@@ -44,12 +47,12 @@
 
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--m3-sys-light-surface-container-high);
+      background-color: var(--bg-cream);
       background-image: 
-        radial-gradient(at 10% 10%, #f0e6fa 0px, transparent 50%),
-        radial-gradient(at 90% 90%, #e8f0fe 0px, transparent 50%),
-        radial-gradient(at 50% 50%, #f7f2fa 0px, transparent 100%);
-      color: var(--m3-sys-light-on-surface);
+        radial-gradient(at 10% 10%, #fef3c7 0px, transparent 55%),
+        radial-gradient(at 90% 90%, #fef9c3 0px, transparent 55%),
+        radial-gradient(at 50% 50%, #fffbeb 0px, transparent 100%);
+      color: var(--brown-deep);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -59,87 +62,110 @@
       overflow-x: hidden;
     }
 
-    /* Ambient Expressive Shapes */
-    .shape-blob-1 {
+    /* Ambient Warm Decorative Glows */
+    .glow-blob-1 {
       position: absolute;
-      width: 480px;
-      height: 480px;
+      width: 460px;
+      height: 460px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(103, 80, 164, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 180, 0, 0.14) 0%, transparent 70%);
       top: -80px;
-      left: -100px;
+      left: -80px;
       pointer-events: none;
       z-index: 0;
     }
 
-    .shape-blob-2 {
+    .glow-blob-2 {
       position: absolute;
       width: 480px;
       height: 480px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(129, 140, 248, 0.1) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 70%);
       bottom: -100px;
       right: -80px;
       pointer-events: none;
       z-index: 0;
     }
 
+    /* M3 Expressive Card Container */
     .card-container {
       position: relative;
       z-index: 1;
       width: 100%;
       max-width: 440px;
-      background: var(--m3-sys-light-surface-container-lowest);
-      border: 1px solid var(--m3-sys-light-outline-variant);
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
       border-radius: 32px; /* M3 Expressive Extra Large Corner Radius */
-      padding: 44px 34px;
+      padding: 40px 32px;
       box-shadow: 
-        0 1px 3px rgba(0, 0, 0, 0.04),
-        0 10px 28px -4px rgba(103, 80, 164, 0.09);
-      transition: all 0.3s ease;
+        0 4px 24px -2px rgba(180, 83, 9, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 26px;
+    }
+
+    .logo-img-wrapper {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 12px auto;
+      border-radius: 22px;
+      background: #fffbeb;
+      border: 1.5px solid rgba(245, 158, 11, 0.3);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
+    }
+
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .brand-logo {
       font-family: 'Caveat', cursive;
-      font-size: 58px;
+      font-size: 42px;
       font-weight: 700;
-      color: var(--m3-sys-light-primary);
-      line-height: 1.05;
-      margin-bottom: 8px;
+      color: var(--primary-amber-dark);
+      line-height: 1.1;
+      margin-bottom: 4px;
       letter-spacing: -0.5px;
-      user-select: none;
     }
 
     .title {
       font-family: 'Outfit', sans-serif;
-      font-size: 24px;
+      font-size: 23px;
       font-weight: 700;
-      color: var(--m3-sys-light-on-surface);
-      margin-bottom: 8px;
+      color: var(--brown-deep);
+      margin-bottom: 6px;
       letter-spacing: -0.3px;
     }
 
     .subtitle {
       font-size: 14px;
-      color: var(--m3-sys-light-on-surface-variant);
-      line-height: 1.55;
-      font-weight: 400;
+      color: var(--brown-muted);
+      line-height: 1.5;
     }
 
     .form-group {
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: var(--m3-sys-light-on-surface-variant);
+      color: var(--brown-medium);
       margin-bottom: 8px;
       letter-spacing: 0.15px;
     }
@@ -152,11 +178,11 @@
 
     .input-wrapper input {
       width: 100%;
-      padding: 16px 48px 16px 18px;
-      border-radius: 18px; /* M3 Expressive Rounded Field */
-      border: 1.5px solid var(--m3-sys-light-outline-variant);
-      background: var(--m3-sys-light-surface-container-low);
-      color: var(--m3-sys-light-on-surface);
+      padding: 15px 48px 15px 18px;
+      border-radius: 18px; /* M3 Expressive Field */
+      border: 1.5px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--brown-deep);
       font-size: 15px;
       outline: none;
       transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
@@ -166,12 +192,12 @@
 
     .input-wrapper input:focus {
       background: #ffffff;
-      border-color: var(--m3-sys-light-primary);
-      box-shadow: 0 0 0 4px rgba(103, 80, 164, 0.15);
+      border-color: var(--input-focus-border);
+      box-shadow: 0 0 0 4px var(--input-focus-ring);
     }
 
     .input-wrapper input::placeholder {
-      color: var(--m3-sys-light-outline);
+      color: #a8988a;
       font-weight: 400;
     }
 
@@ -180,7 +206,7 @@
       right: 14px;
       background: transparent;
       border: none;
-      color: var(--m3-sys-light-outline);
+      color: var(--brown-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -191,8 +217,8 @@
     }
 
     .toggle-visibility:hover {
-      color: var(--m3-sys-light-primary);
-      background: var(--m3-sys-light-primary-container);
+      color: var(--primary-amber-dark);
+      background: #fef3c7;
     }
 
     .toggle-visibility svg {
@@ -205,56 +231,136 @@
       stroke-linejoin: round;
     }
 
-    .helper-text {
-      font-size: 12px;
-      color: var(--m3-sys-light-on-surface-variant);
-      margin-top: 6px;
-      margin-left: 4px;
-      font-weight: 500;
+    /* 3-Line Password Strength Indicator */
+    .strength-wrapper {
+      margin-top: 10px;
     }
 
-    /* M3 Expressive Filled Pill Button */
+    .strength-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .strength-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brown-muted);
+    }
+
+    .strength-badge {
+      font-size: 12px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: capitalize;
+      transition: color 0.2s;
+    }
+
+    .strength-bars {
+      display: flex;
+      gap: 6px;
+      height: 6px;
+      margin-bottom: 10px;
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 100%;
+      border-radius: 999px;
+      background-color: #e8ded4;
+      transition: background-color 0.3s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    /* Strength Colors */
+    .strength-bars.level-1 #bar-1 { background-color: #ef4444; }
+    .strength-bars.level-2 #bar-1, 
+    .strength-bars.level-2 #bar-2 { background-color: #f59e0b; }
+    .strength-bars.level-3 #bar-1, 
+    .strength-bars.level-3 #bar-2, 
+    .strength-bars.level-3 #bar-3 { background-color: #10b981; }
+
+    /* Criteria Tags */
+    .criteria-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .crit-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #9c8b7d;
+      background: #f5eee6;
+      padding: 4px 10px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .crit-item svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .crit-item.met {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .crit-item.met svg {
+      stroke: #059669;
+    }
+
+    /* M3 Expressive Pill Button (Golden Yellow + Brown Theme) */
     .btn-submit {
       width: 100%;
       padding: 16px;
-      background: var(--m3-sys-light-primary);
-      color: var(--m3-sys-light-on-primary);
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #ffffff;
       border: none;
-      border-radius: 28px; /* M3 Pill shape */
+      border-radius: 28px; /* M3 Pill */
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.2px;
       cursor: pointer;
-      margin-top: 12px;
-      box-shadow: 0 2px 6px rgba(103, 80, 164, 0.25);
+      margin-top: 14px;
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.32);
       transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
+      text-shadow: 0 1px 2px rgba(69, 26, 3, 0.2);
     }
 
     .btn-submit:hover:not(:disabled) {
-      background: var(--m3-sys-light-primary-hover);
-      box-shadow: 0 4px 12px rgba(103, 80, 164, 0.35);
-      transform: translateY(-1px);
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.42);
+      transform: translateY(-1.5px);
     }
 
     .btn-submit:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 1px 3px rgba(103, 80, 164, 0.2);
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
     }
 
     .btn-submit:disabled {
-      background: rgba(29, 27, 32, 0.12);
-      color: rgba(29, 27, 32, 0.38);
+      background: #dfd7ce;
+      color: #9c8b7d;
       cursor: not-allowed;
       box-shadow: none;
       transform: none;
+      text-shadow: none;
     }
 
-    /* Alert Boxes Styled to M3 Color Roles */
+    /* Alerts */
     .alert {
       padding: 14px 18px;
       border-radius: 16px;
@@ -267,22 +373,15 @@
     }
 
     .alert-error {
-      background-color: var(--m3-sys-light-error-container);
-      color: var(--m3-sys-light-on-error-container);
-      border: 1px solid rgba(186, 26, 26, 0.25);
-    }
-
-    .alert-success {
-      background-color: var(--m3-sys-light-success-container);
-      color: var(--m3-sys-light-on-success-container);
-      border: 1px solid rgba(5, 150, 105, 0.25);
-      text-align: center;
+      background-color: var(--m3-error-bg);
+      color: var(--m3-error-text);
+      border: 1.5px solid rgba(186, 26, 26, 0.25);
     }
 
     .alert-info {
-      background-color: var(--m3-sys-light-primary-container);
-      color: var(--m3-sys-light-on-primary-container);
-      border: 1px solid rgba(103, 80, 164, 0.2);
+      background-color: #fef3c7;
+      color: var(--brown-deep);
+      border: 1.5px solid rgba(245, 158, 11, 0.35);
       display: block;
     }
 
@@ -305,66 +404,106 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Success Card View */
-    .success-icon-wrapper {
-      width: 76px;
-      height: 76px;
-      margin: 0 auto 18px auto;
-      background: var(--m3-sys-light-success-container);
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Success Panel: Stays strictly inside the card */
+    .panel-wrapper {
+      transition: all 0.3s ease;
+    }
+
+    #success-panel {
+      display: none;
+      text-align: center;
+      animation: scaleIn 0.35s cubic-bezier(0.2, 0, 0, 1) forwards;
+      padding: 10px 0;
+    }
+
+    .success-icon-badge {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px auto;
+      background: #d1fae5;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 3px solid #a7f3d0;
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.15);
     }
 
-    .success-icon-wrapper svg {
-      width: 40px;
-      height: 40px;
-      stroke: var(--m3-sys-light-success);
+    .success-icon-badge svg {
+      width: 44px;
+      height: 44px;
+      stroke: #059669;
       stroke-width: 3;
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
+    .success-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brown-deep);
+      margin-bottom: 8px;
+    }
+
+    .success-desc {
+      font-size: 14.5px;
+      color: var(--brown-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
     .btn-open-app {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       width: 100%;
-      margin-top: 22px;
       padding: 16px;
-      background: var(--m3-sys-light-primary);
-      color: var(--m3-sys-light-on-primary);
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #ffffff;
       border-radius: 28px;
       text-decoration: none;
       font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-      font-size: 15px;
+      font-weight: 700;
+      font-size: 16px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(103, 80, 164, 0.3);
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.32);
       transition: all 0.2s ease;
+      text-shadow: 0 1px 2px rgba(69, 26, 3, 0.2);
     }
 
     .btn-open-app:hover {
-      background: var(--m3-sys-light-primary-hover);
-      box-shadow: 0 4px 14px rgba(103, 80, 164, 0.4);
-      transform: translateY(-1px);
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.42);
+      transform: translateY(-1.5px);
     }
 
     .footer-note {
       text-align: center;
       font-size: 12px;
-      color: var(--m3-sys-light-outline);
-      margin-top: 28px;
+      color: var(--brown-muted);
+      margin-top: 24px;
       font-weight: 500;
     }
   </style>
 </head>
 <body>
-  <div class="shape-blob-1"></div>
-  <div class="shape-blob-2"></div>
+  <div class="glow-blob-1"></div>
+  <div class="glow-blob-2"></div>
 
   <div class="card-container">
+    <!-- Header with App Logo -->
     <div class="header">
+      <div class="logo-img-wrapper">
+        <img src="logo.png" alt="Notlyfe Logo" class="logo-img" onerror="this.style.display='none'">
+      </div>
       <div class="brand-logo">Notlyfe</div>
       <h1 class="title">Create New Password</h1>
       <p class="subtitle">Enter your new secure password below to regain access to your account.</p>
@@ -372,43 +511,76 @@
 
     <div id="alert-box" class="alert"></div>
 
-    <form id="reset-form">
-      <div class="form-group">
-        <label for="new-password">New Password</label>
-        <div class="input-wrapper">
-          <input type="password" id="new-password" placeholder="Minimum 6 characters" required minlength="6" autocomplete="new-password">
-          <button type="button" class="toggle-visibility" onclick="togglePassword('new-password', this)" title="Show/Hide">
-            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          </button>
+    <!-- Form Panel -->
+    <div id="form-panel" class="panel-wrapper">
+      <form id="reset-form">
+        <div class="form-group">
+          <label for="new-password">New Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="new-password" placeholder="Enter new password" required minlength="6" autocomplete="new-password">
+            <button type="button" class="toggle-visibility" onclick="togglePassword('new-password', this)" title="Show/Hide">
+              <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+
+          <!-- 3-Line Strength Indicator -->
+          <div class="strength-wrapper">
+            <div class="strength-header">
+              <span class="strength-label">Password strength:</span>
+              <span class="strength-badge" id="strength-badge">Too Short</span>
+            </div>
+            <div class="strength-bars" id="strength-bars">
+              <div class="strength-bar" id="bar-1"></div>
+              <div class="strength-bar" id="bar-2"></div>
+              <div class="strength-bar" id="bar-3"></div>
+            </div>
+            <div class="criteria-grid">
+              <div class="crit-item" id="crit-len">
+                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
+                <span>8+ chars</span>
+              </div>
+              <div class="crit-item" id="crit-upper">
+                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
+                <span>Uppercase &amp; Lowercase</span>
+              </div>
+              <div class="crit-item" id="crit-spec">
+                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
+                <span>Special char or number</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="helper-text">Must be at least 6 characters</div>
-      </div>
 
-      <div class="form-group">
-        <label for="confirm-password">Confirm New Password</label>
-        <div class="input-wrapper">
-          <input type="password" id="confirm-password" placeholder="Re-enter your password" required minlength="6" autocomplete="new-password">
-          <button type="button" class="toggle-visibility" onclick="togglePassword('confirm-password', this)" title="Show/Hide">
-            <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          </button>
+        <div class="form-group">
+          <label for="confirm-password">Confirm New Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirm-password" placeholder="Re-enter new password" required minlength="6" autocomplete="new-password">
+            <button type="button" class="toggle-visibility" onclick="togglePassword('confirm-password', this)" title="Show/Hide">
+              <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <button type="submit" id="submit-btn" class="btn-submit">
-        <div id="btn-spinner" class="spinner"></div>
-        <span id="btn-text">Update Password</span>
-      </button>
-    </form>
+        <button type="submit" id="submit-btn" class="btn-submit">
+          <div id="btn-spinner" class="spinner"></div>
+          <span id="btn-text">Update Password</span>
+        </button>
+      </form>
+    </div>
 
-    <div id="success-view" style="display: none; text-align: center;">
-      <div class="success-icon-wrapper">
+    <!-- Success Panel (Permanently in card container, revealed on success) -->
+    <div id="success-panel" class="panel-wrapper">
+      <div class="success-icon-badge">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
-      <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: #1d1b20; margin-bottom: 8px;">Password Updated!</h2>
-      <p style="font-size: 14px; color: #49454f; line-height: 1.6; margin-bottom: 8px;">
-        Your password has been changed successfully. You can now return to the Notlyfe app and sign in with your new credentials.
+      <h2 class="success-title">Password Updated!</h2>
+      <p class="success-desc">
+        Your Notlyfe password has been reset successfully. You can now return to the app and sign in with your new credentials.
       </p>
-      <a href="notlyfe://" class="btn-open-app">Open Notlyfe App</a>
+      <a href="notlyfe://" class="btn-open-app">
+        <span>Open Notlyfe App</span>
+        <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
     </div>
 
     <div class="footer-note">
@@ -423,15 +595,23 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const alertBox = document.getElementById("alert-box");
+    const formPanel = document.getElementById("form-panel");
+    const successPanel = document.getElementById("success-panel");
     const form = document.getElementById("reset-form");
     const submitBtn = document.getElementById("submit-btn");
     const btnSpinner = document.getElementById("btn-spinner");
     const btnText = document.getElementById("btn-text");
-    const successView = document.getElementById("success-view");
+
+    const newPwdInput = document.getElementById("new-password");
+    const strengthBars = document.getElementById("strength-bars");
+    const strengthBadge = document.getElementById("strength-badge");
+    const critLen = document.getElementById("crit-len");
+    const critUpper = document.getElementById("crit-upper");
+    const critSpec = document.getElementById("crit-spec");
 
     function showAlert(msg, type) {
       alertBox.innerHTML = msg;
-      alertBox.className = "alert " + (type === "error" ? "alert-error" : type === "success" ? "alert-success" : "alert-info");
+      alertBox.className = "alert " + (type === "error" ? "alert-error" : "alert-info");
       alertBox.style.display = "block";
     }
 
@@ -443,6 +623,43 @@
         ? `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
         : `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
     }
+
+    // 3-Line Password Strength Evaluation
+    newPwdInput.addEventListener("input", () => {
+      const val = newPwdInput.value;
+      
+      const hasLength = val.length >= 8;
+      const hasUpperLower = /[A-Z]/.test(val) && /[a-z]/.test(val);
+      const hasSpecialOrNum = /[^A-Za-z]/.test(val);
+
+      // Update Criteria Indicators
+      critLen.classList.toggle("met", hasLength);
+      critUpper.classList.toggle("met", hasUpperLower);
+      critSpec.classList.toggle("met", hasSpecialOrNum);
+
+      let score = 0;
+      if (hasLength) score++;
+      if (hasUpperLower) score++;
+      if (hasSpecialOrNum) score++;
+
+      strengthBars.className = "strength-bars";
+      if (val.length === 0) {
+        strengthBadge.textContent = "Too Short";
+        strengthBadge.style.color = "#9ca3af";
+      } else if (score <= 1) {
+        strengthBars.classList.add("level-1");
+        strengthBadge.textContent = "Weak";
+        strengthBadge.style.color = "#ef4444";
+      } else if (score === 2) {
+        strengthBars.classList.add("level-2");
+        strengthBadge.textContent = "Medium";
+        strengthBadge.style.color = "#f59e0b";
+      } else {
+        strengthBars.classList.add("level-3");
+        strengthBadge.textContent = "Strong";
+        strengthBadge.style.color = "#10b981";
+      }
+    });
 
     function getRecoveryToken() {
       // 1. Try URL fragment hash (starts with #)
@@ -493,7 +710,7 @@
       try {
         let token = getRecoveryToken();
 
-        // If not in URL, check Supabase local session
+        // If not directly in URL, check Supabase local session
         if (!token) {
           try {
             const { data } = await supabase.auth.getSession();
@@ -531,9 +748,9 @@
           return;
         }
 
-        // Password updated successfully!
-        form.style.display = "none";
-        successView.style.display = "block";
+        // Password updated successfully! Reveal success panel inside the card
+        formPanel.style.display = "none";
+        successPanel.style.display = "block";
       } catch (err) {
         showAlert("An unexpected error occurred: " + err.message, "error");
         submitBtn.disabled = false;
