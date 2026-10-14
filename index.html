@@ -3,39 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reset Password — Notlyfe</title>
-  <!-- Google Fonts: Material 3 Expressive Typography -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Reset your password — Notlyfe</title>
+  <!-- Google Fonts: Roboto & Outfit (Clean Android / Material 3 Style) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      /* Notlyfe Yellow with Brownish Material 3 Expressive Palette */
-      --primary-amber: #d97706;
-      --primary-amber-dark: #b45309;
-      --primary-gold: #f59e0b;
-      --primary-gold-bright: #ffb400;
-      --brown-deep: #451a03;
-      --brown-medium: #78350f;
-      --brown-soft: #92400e;
-      --brown-muted: #8c6e58;
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --border: #e0e0e0;
+      --border-focus: #b45309;
+      --text-primary: #202124;
+      --text-secondary: #5f6368;
+      --text-tertiary: #80868b;
+      --primary: #b45309;
+      --primary-hover: #92400e;
+      --primary-focus-ring: rgba(180, 83, 9, 0.18);
+      --amber-accent: #f59e0b;
+      --amber-light: #fef3c7;
       
-      --bg-cream: #fdfbf7;
-      --card-bg: #ffffff;
-      --card-border: rgba(180, 83, 9, 0.16);
-      --input-bg: #fffdfa;
-      --input-border: #d6cbbf;
-      --input-focus-border: #d97706;
-      --input-focus-ring: rgba(245, 158, 11, 0.2);
-      
-      --m3-error: #ba1a1a;
-      --m3-error-bg: #ffdad6;
-      --m3-error-text: #410002;
-      --m3-success: #059669;
-      --m3-success-bg: #d1fae5;
-      --m3-success-text: #064e3b;
+      --color-weak: #d93025;
+      --color-fair: #f59e0b;
+      --color-strong: #1e8e3e;
+      --bar-empty: #e0e0e0;
     }
 
     * {
@@ -46,182 +42,131 @@
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-cream);
-      background-image: 
-        radial-gradient(at 10% 10%, #fef3c7 0px, transparent 55%),
-        radial-gradient(at 90% 90%, #fef9c3 0px, transparent 55%),
-        radial-gradient(at 50% 50%, #fffbeb 0px, transparent 100%);
-      color: var(--brown-deep);
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px 16px;
-      position: relative;
-      overflow-x: hidden;
     }
 
-    /* Ambient Warm Decorative Glows */
-    .glow-blob-1 {
-      position: absolute;
-      width: 460px;
-      height: 460px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 180, 0, 0.14) 0%, transparent 70%);
-      top: -80px;
-      left: -80px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .glow-blob-2 {
-      position: absolute;
-      width: 480px;
-      height: 480px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 70%);
-      bottom: -100px;
-      right: -80px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* M3 Expressive Card Container */
-    .card-container {
-      position: relative;
-      z-index: 1;
+    /* Minimal, Clean Android Style Card */
+    .card {
       width: 100%;
-      max-width: 440px;
-      background: var(--card-bg);
-      border: 1.5px solid var(--card-border);
-      border-radius: 32px; /* M3 Expressive Extra Large Corner Radius */
-      padding: 40px 32px;
-      box-shadow: 
-        0 4px 24px -2px rgba(180, 83, 9, 0.08),
-        0 1px 4px rgba(0, 0, 0, 0.04);
-      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-      min-height: 540px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      max-width: 520px; /* Increased width as requested */
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; /* Clean standard M3 radius, not oversized bubble */
+      padding: 36px 32px;
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 4px 8px rgba(60, 64, 67, 0.04);
+      margin: auto;
     }
 
+    /* Header */
     .header {
-      text-align: center;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
     }
 
-    .logo-img-wrapper {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 12px auto;
-      border-radius: 22px;
-      background: #fffbeb;
-      border: 1.5px solid rgba(245, 158, 11, 0.3);
-      padding: 8px;
+    .brand-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    .logo-img {
-      width: 100%;
-      height: 100%;
+    .brand-logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
       object-fit: contain;
     }
 
-    .brand-logo {
-      font-family: 'Caveat', cursive;
-      font-size: 42px;
+    .brand-name {
+      font-size: 20px;
       font-weight: 700;
-      color: var(--primary-amber-dark);
-      line-height: 1.1;
-      margin-bottom: 4px;
-      letter-spacing: -0.5px;
+      color: var(--primary);
+      letter-spacing: -0.2px;
     }
 
     .title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 23px;
-      font-weight: 700;
-      color: var(--brown-deep);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
       margin-bottom: 6px;
-      letter-spacing: -0.3px;
     }
 
     .subtitle {
       font-size: 14px;
-      color: var(--brown-muted);
-      line-height: 1.5;
+      color: var(--text-secondary);
+      line-height: 1.45;
     }
 
+    /* Form Fields */
     .form-group {
       margin-bottom: 20px;
     }
 
-    label {
+    .field-label {
       display: block;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--brown-medium);
-      margin-bottom: 8px;
-      letter-spacing: 0.15px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
     }
 
-    .input-wrapper {
+    .input-box {
       position: relative;
       display: flex;
       align-items: center;
     }
 
-    .input-wrapper input {
+    .input-box input {
       width: 100%;
-      padding: 15px 48px 15px 18px;
-      border-radius: 18px; /* M3 Expressive Field */
-      border: 1.5px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--brown-deep);
+      height: 48px;
+      padding: 12px 44px 12px 14px;
+      border: 1px solid #747775;
+      border-radius: 8px; /* Clean Android input shape */
       font-size: 15px;
-      outline: none;
-      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-      font-family: inherit;
-      font-weight: 500;
-    }
-
-    .input-wrapper input:focus {
+      color: var(--text-primary);
       background: #ffffff;
-      border-color: var(--input-focus-border);
-      box-shadow: 0 0 0 4px var(--input-focus-ring);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
     }
 
-    .input-wrapper input::placeholder {
-      color: #a8988a;
-      font-weight: 400;
+    .input-box input:focus {
+      border: 2px solid var(--border-focus);
+      padding-left: 13px; /* Offset 1px for 2px border */
+      box-shadow: 0 0 0 3px var(--primary-focus-ring);
     }
 
-    .toggle-visibility {
+    .input-box input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .btn-eye {
       position: absolute;
-      right: 14px;
+      right: 8px;
       background: transparent;
       border: none;
-      color: var(--brown-muted);
+      padding: 8px;
+      color: var(--text-secondary);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
       border-radius: 50%;
-      transition: all 0.2s;
     }
 
-    .toggle-visibility:hover {
-      color: var(--primary-amber-dark);
-      background: #fef3c7;
+    .btn-eye:hover {
+      background: #f1f3f4;
+      color: var(--text-primary);
     }
 
-    .toggle-visibility svg {
+    .btn-eye svg {
       width: 20px;
       height: 20px;
       fill: none;
@@ -232,75 +177,71 @@
     }
 
     /* 3-Line Password Strength Indicator */
-    .strength-wrapper {
+    .strength-section {
       margin-top: 10px;
     }
 
-    .strength-header {
+    .strength-status {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 12px;
       margin-bottom: 6px;
     }
 
-    .strength-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--brown-muted);
+    .strength-status-label {
+      color: var(--text-secondary);
     }
 
-    .strength-badge {
-      font-size: 12px;
+    .strength-status-text {
       font-weight: 700;
-      color: #9ca3af;
-      text-transform: capitalize;
-      transition: color 0.2s;
+      color: var(--text-tertiary);
     }
 
-    .strength-bars {
+    .bars-row {
       display: flex;
       gap: 6px;
-      height: 6px;
-      margin-bottom: 10px;
+      height: 4px;
+      margin-bottom: 12px;
     }
 
-    .strength-bar {
+    .bar {
       flex: 1;
       height: 100%;
-      border-radius: 999px;
-      background-color: #e8ded4;
-      transition: background-color 0.3s cubic-bezier(0.2, 0, 0, 1);
+      border-radius: 2px;
+      background-color: var(--bar-empty);
+      transition: background-color 0.2s ease;
     }
 
-    /* Strength Colors */
-    .strength-bars.level-1 #bar-1 { background-color: #ef4444; }
-    .strength-bars.level-2 #bar-1, 
-    .strength-bars.level-2 #bar-2 { background-color: #f59e0b; }
-    .strength-bars.level-3 #bar-1, 
-    .strength-bars.level-3 #bar-2, 
-    .strength-bars.level-3 #bar-3 { background-color: #10b981; }
-
-    /* Criteria Tags */
-    .criteria-grid {
+    /* Requirements: One per line as explicitly requested */
+    .req-list {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 6px;
     }
 
-    .crit-item {
-      display: inline-flex;
+    .req-item {
+      display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #9c8b7d;
-      background: #f5eee6;
-      padding: 4px 10px;
-      border-radius: 12px;
-      transition: all 0.2s ease;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      transition: color 0.15s ease;
     }
 
-    .crit-item svg {
+    .req-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-tertiary);
+      transition: all 0.15s ease;
+    }
+
+    .req-icon svg {
       width: 12px;
       height: 12px;
       stroke: currentColor;
@@ -308,90 +249,71 @@
       fill: none;
     }
 
-    .crit-item.met {
-      background: #d1fae5;
-      color: #065f46;
+    .req-item.met {
+      color: #137333;
+      font-weight: 500;
     }
 
-    .crit-item.met svg {
-      stroke: #059669;
+    .req-item.met .req-icon {
+      color: #137333;
     }
 
-    /* M3 Expressive Pill Button (Golden Yellow + Brown Theme) */
-    .btn-submit {
+    /* Clean Android Primary Button */
+    .btn-primary {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      height: 46px;
+      background: var(--primary);
       color: #ffffff;
       border: none;
-      border-radius: 28px; /* M3 Pill */
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
+      border-radius: 8px; /* Clean Android standard button */
+      font-size: 15px;
+      font-weight: 500;
       cursor: pointer;
-      margin-top: 14px;
-      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.32);
-      transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+      margin-top: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      text-shadow: 0 1px 2px rgba(69, 26, 3, 0.2);
+      gap: 8px;
+      transition: background-color 0.15s;
     }
 
-    .btn-submit:hover:not(:disabled) {
-      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.42);
-      transform: translateY(-1.5px);
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
     }
 
-    .btn-submit:active:not(:disabled) {
-      transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
+    .btn-primary:active:not(:disabled) {
+      background: #78350f;
     }
 
-    .btn-submit:disabled {
-      background: #dfd7ce;
-      color: #9c8b7d;
+    .btn-primary:disabled {
+      background: #dadce0;
+      color: #80868b;
       cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-      text-shadow: none;
     }
 
-    /* Alerts */
-    .alert {
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-size: 14px;
-      margin-bottom: 22px;
+    /* Alert Banner */
+    .alert-banner {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 18px;
       display: none;
-      line-height: 1.5;
-      font-weight: 500;
-      animation: fadeIn 0.3s ease;
+      line-height: 1.4;
     }
 
     .alert-error {
-      background-color: var(--m3-error-bg);
-      color: var(--m3-error-text);
-      border: 1.5px solid rgba(186, 26, 26, 0.25);
-    }
-
-    .alert-info {
-      background-color: #fef3c7;
-      color: var(--brown-deep);
-      border: 1.5px solid rgba(245, 158, 11, 0.35);
-      display: block;
+      background: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #fad2cf;
     }
 
     .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2.5px solid rgba(255, 255, 255, 0.4);
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
       border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.8s linear infinite;
+      border-top-color: #ffffff;
+      animation: spin 0.7s linear infinite;
       display: none;
     }
 
@@ -399,192 +321,164 @@
       to { transform: rotate(360deg); }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Success Panel: Stays strictly inside the card */
-    .panel-wrapper {
-      transition: all 0.3s ease;
-    }
-
+    /* Success Panel: Strictly in-card */
     #success-panel {
       display: none;
       text-align: center;
-      animation: scaleIn 0.35s cubic-bezier(0.2, 0, 0, 1) forwards;
-      padding: 10px 0;
+      padding: 12px 0 6px 0;
     }
 
-    .success-icon-badge {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 20px auto;
-      background: #d1fae5;
+    .success-badge {
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
+      background: #e6f4ea;
+      margin: 0 auto 16px auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 3px solid #a7f3d0;
-      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.15);
+      color: #137333;
     }
 
-    .success-icon-badge svg {
-      width: 44px;
-      height: 44px;
-      stroke: #059669;
-      stroke-width: 3;
+    .success-badge svg {
+      width: 32px;
+      height: 32px;
+      stroke: #137333;
+      stroke-width: 2.5;
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    .success-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--brown-deep);
+    .success-headline {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
       margin-bottom: 8px;
     }
 
-    .success-desc {
-      font-size: 14.5px;
-      color: var(--brown-muted);
-      line-height: 1.6;
+    .success-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
       margin-bottom: 24px;
     }
 
-    .btn-open-app {
+    .btn-app {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      height: 46px;
+      background: var(--primary);
       color: #ffffff;
-      border-radius: 28px;
       text-decoration: none;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      text-align: center;
-      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.32);
-      transition: all 0.2s ease;
-      text-shadow: 0 1px 2px rgba(69, 26, 3, 0.2);
-    }
-
-    .btn-open-app:hover {
-      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.42);
-      transform: translateY(-1.5px);
-    }
-
-    .footer-note {
-      text-align: center;
-      font-size: 12px;
-      color: var(--brown-muted);
-      margin-top: 24px;
+      border-radius: 8px;
+      font-size: 15px;
       font-weight: 500;
+      transition: background-color 0.15s;
+    }
+
+    .btn-app:hover {
+      background: var(--primary-hover);
     }
   </style>
 </head>
 <body>
-  <div class="glow-blob-1"></div>
-  <div class="glow-blob-2"></div>
 
-  <div class="card-container">
-    <!-- Header with App Logo -->
+  <div class="card">
+    <!-- Brand / Header -->
     <div class="header">
-      <div class="logo-img-wrapper">
-        <img src="logo.png" alt="Notlyfe Logo" class="logo-img" onerror="this.style.display='none'">
+      <div class="brand-row">
+        <img src="logo.png" alt="Notlyfe" class="brand-logo-img" onerror="this.style.display='none'">
+        <span class="brand-name">Notlyfe</span>
       </div>
-      <div class="brand-logo">Notlyfe</div>
-      <h1 class="title">Create New Password</h1>
-      <p class="subtitle">Enter your new secure password below to regain access to your account.</p>
+      <h1 class="title">Reset your password</h1>
+      <p class="subtitle">Choose a new, strong password for your Notlyfe account.</p>
     </div>
 
-    <div id="alert-box" class="alert"></div>
+    <!-- Alert Box for Errors -->
+    <div id="alert-box" class="alert-banner alert-error"></div>
 
-    <!-- Form Panel -->
-    <div id="form-panel" class="panel-wrapper">
-      <form id="reset-form">
+    <!-- Form Section -->
+    <div id="form-section">
+      <form id="reset-form" autocomplete="off">
+        
+        <!-- New Password Field -->
         <div class="form-group">
-          <label for="new-password">New Password</label>
-          <div class="input-wrapper">
-            <input type="password" id="new-password" placeholder="Enter new password" required minlength="6" autocomplete="new-password">
-            <button type="button" class="toggle-visibility" onclick="togglePassword('new-password', this)" title="Show/Hide">
-              <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <label for="new-password" class="field-label">New password</label>
+          <div class="input-box">
+            <input type="password" id="new-password" placeholder="Enter new password" required autocomplete="new-password">
+            <button type="button" class="btn-eye" id="toggle-new" title="Show password">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </div>
 
-          <!-- 3-Line Strength Indicator -->
-          <div class="strength-wrapper">
-            <div class="strength-header">
-              <span class="strength-label">Password strength:</span>
-              <span class="strength-badge" id="strength-badge">Too Short</span>
+          <!-- 3-Line Password Strength Indicator -->
+          <div class="strength-section">
+            <div class="strength-status">
+              <span class="strength-status-label">Password strength:</span>
+              <span id="strength-text" class="strength-status-text">Empty</span>
             </div>
-            <div class="strength-bars" id="strength-bars">
-              <div class="strength-bar" id="bar-1"></div>
-              <div class="strength-bar" id="bar-2"></div>
-              <div class="strength-bar" id="bar-3"></div>
+            <div class="bars-row">
+              <div class="bar" id="bar-1"></div>
+              <div class="bar" id="bar-2"></div>
+              <div class="bar" id="bar-3"></div>
             </div>
-            <div class="criteria-grid">
-              <div class="crit-item" id="crit-len">
-                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
-                <span>8+ chars</span>
+
+            <!-- ONE REQUIREMENT PER LINE -->
+            <div class="req-list">
+              <div class="req-item" id="req-length">
+                <span class="req-icon" id="icon-length">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>
+                </span>
+                <span>At least 8 characters</span>
               </div>
-              <div class="crit-item" id="crit-upper">
-                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
-                <span>Uppercase &amp; Lowercase</span>
+              <div class="req-item" id="req-case">
+                <span class="req-icon" id="icon-case">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>
+                </span>
+                <span>Uppercase &amp; lowercase letters</span>
               </div>
-              <div class="crit-item" id="crit-spec">
-                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
+              <div class="req-item" id="req-special">
+                <span class="req-icon" id="icon-special">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>
+                </span>
                 <span>Special char or number</span>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Confirm Password Field -->
         <div class="form-group">
-          <label for="confirm-password">Confirm New Password</label>
-          <div class="input-wrapper">
-            <input type="password" id="confirm-password" placeholder="Re-enter new password" required minlength="6" autocomplete="new-password">
-            <button type="button" class="toggle-visibility" onclick="togglePassword('confirm-password', this)" title="Show/Hide">
-              <svg class="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <label for="confirm-password" class="field-label">Confirm new password</label>
+          <div class="input-box">
+            <input type="password" id="confirm-password" placeholder="Re-enter new password" required autocomplete="new-password">
+            <button type="button" class="btn-eye" id="toggle-confirm" title="Show password">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </div>
         </div>
 
-        <button type="submit" id="submit-btn" class="btn-submit">
+        <!-- Submit Button -->
+        <button type="submit" id="submit-btn" class="btn-primary">
           <div id="btn-spinner" class="spinner"></div>
-          <span id="btn-text">Update Password</span>
+          <span id="btn-text">Save password</span>
         </button>
       </form>
     </div>
 
-    <!-- Success Panel (Permanently in card container, revealed on success) -->
-    <div id="success-panel" class="panel-wrapper">
-      <div class="success-icon-badge">
+    <!-- Success Section (Never collapses the card, revealed cleanly inside) -->
+    <div id="success-section">
+      <div class="success-badge">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
-      <h2 class="success-title">Password Updated!</h2>
-      <p class="success-desc">
-        Your Notlyfe password has been reset successfully. You can now return to the app and sign in with your new credentials.
+      <h2 class="success-headline">Password updated</h2>
+      <p class="success-body">
+        Your password has been changed successfully. You can now open the Notlyfe app and sign in with your new password.
       </p>
-      <a href="notlyfe://" class="btn-open-app">
-        <span>Open Notlyfe App</span>
-        <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-      </a>
-    </div>
-
-    <div class="footer-note">
-      End-to-end encrypted &bull; Secured with Supabase Auth
+      <a href="notlyfe://" class="btn-app">Open Notlyfe App</a>
     </div>
   </div>
 
@@ -594,82 +488,123 @@
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // Elements
+    const formSection = document.getElementById("form-section");
+    const successSection = document.getElementById("success-section");
+    const resetForm = document.getElementById("reset-form");
     const alertBox = document.getElementById("alert-box");
-    const formPanel = document.getElementById("form-panel");
-    const successPanel = document.getElementById("success-panel");
-    const form = document.getElementById("reset-form");
+
+    const newPwd = document.getElementById("new-password");
+    const confirmPwd = document.getElementById("confirm-password");
     const submitBtn = document.getElementById("submit-btn");
     const btnSpinner = document.getElementById("btn-spinner");
     const btnText = document.getElementById("btn-text");
 
-    const newPwdInput = document.getElementById("new-password");
-    const strengthBars = document.getElementById("strength-bars");
-    const strengthBadge = document.getElementById("strength-badge");
-    const critLen = document.getElementById("crit-len");
-    const critUpper = document.getElementById("crit-upper");
-    const critSpec = document.getElementById("crit-spec");
+    const bar1 = document.getElementById("bar-1");
+    const bar2 = document.getElementById("bar-2");
+    const bar3 = document.getElementById("bar-3");
+    const strengthText = document.getElementById("strength-text");
 
-    function showAlert(msg, type) {
-      alertBox.innerHTML = msg;
-      alertBox.className = "alert " + (type === "error" ? "alert-error" : "alert-info");
+    const reqLength = document.getElementById("req-length");
+    const reqCase = document.getElementById("req-case");
+    const reqSpecial = document.getElementById("req-special");
+
+    const iconLength = document.getElementById("icon-length");
+    const iconCase = document.getElementById("icon-case");
+    const iconSpecial = document.getElementById("icon-special");
+
+    const CHECKMARK_SVG = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    const DOT_SVG = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>';
+
+    function showAlert(msg) {
+      alertBox.textContent = msg;
       alertBox.style.display = "block";
     }
 
-    function togglePassword(inputId, btn) {
-      const input = document.getElementById(inputId);
-      const isPassword = input.type === "password";
-      input.type = isPassword ? "text" : "password";
-      btn.innerHTML = isPassword
-        ? `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
-        : `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    function hideAlert() {
+      alertBox.style.display = "none";
     }
 
-    // 3-Line Password Strength Evaluation
-    newPwdInput.addEventListener("input", () => {
-      const val = newPwdInput.value;
-      
-      const hasLength = val.length >= 8;
-      const hasUpperLower = /[A-Z]/.test(val) && /[a-z]/.test(val);
-      const hasSpecialOrNum = /[^A-Za-z]/.test(val);
+    // Toggle Eye Buttons
+    function setupToggle(btnId, inputId) {
+      const btn = document.getElementById(btnId);
+      const input = document.getElementById(inputId);
+      btn.addEventListener("click", () => {
+        const isPwd = input.type === "password";
+        input.type = isPwd ? "text" : "password";
+        btn.innerHTML = isPwd
+          ? '<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+          : '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+      });
+    }
+    setupToggle("toggle-new", "new-password");
+    setupToggle("toggle-confirm", "confirm-password");
 
-      // Update Criteria Indicators
-      critLen.classList.toggle("met", hasLength);
-      critUpper.classList.toggle("met", hasUpperLower);
-      critSpec.classList.toggle("met", hasSpecialOrNum);
+    // 3-Line Strength Logic
+    function updateStrength() {
+      const val = newPwd.value || "";
+
+      // Criteria Checks
+      const isLength = val.length >= 8;
+      const isCase = /[A-Z]/.test(val) && /[a-z]/.test(val);
+      const isSpecial = /[0-9]/.test(val) || /[^A-Za-z0-9]/.test(val);
+
+      // Update Requirement 1: Length
+      reqLength.classList.toggle("met", isLength);
+      iconLength.innerHTML = isLength ? CHECKMARK_SVG : DOT_SVG;
+
+      // Update Requirement 2: Case
+      reqCase.classList.toggle("met", isCase);
+      iconCase.innerHTML = isCase ? CHECKMARK_SVG : DOT_SVG;
+
+      // Update Requirement 3: Special or Number
+      reqSpecial.classList.toggle("met", isSpecial);
+      iconSpecial.innerHTML = isSpecial ? CHECKMARK_SVG : DOT_SVG;
 
       let score = 0;
-      if (hasLength) score++;
-      if (hasUpperLower) score++;
-      if (hasSpecialOrNum) score++;
+      if (isLength) score++;
+      if (isCase) score++;
+      if (isSpecial) score++;
 
-      strengthBars.className = "strength-bars";
+      // Reset bars
+      bar1.style.backgroundColor = "var(--bar-empty)";
+      bar2.style.backgroundColor = "var(--bar-empty)";
+      bar3.style.backgroundColor = "var(--bar-empty)";
+
       if (val.length === 0) {
-        strengthBadge.textContent = "Too Short";
-        strengthBadge.style.color = "#9ca3af";
-      } else if (score <= 1) {
-        strengthBars.classList.add("level-1");
-        strengthBadge.textContent = "Weak";
-        strengthBadge.style.color = "#ef4444";
+        strengthText.textContent = "Empty";
+        strengthText.style.color = "var(--text-tertiary)";
+      } else if (score === 1 || val.length < 6) {
+        bar1.style.backgroundColor = "var(--color-weak)";
+        strengthText.textContent = "Weak";
+        strengthText.style.color = "var(--color-weak)";
       } else if (score === 2) {
-        strengthBars.classList.add("level-2");
-        strengthBadge.textContent = "Medium";
-        strengthBadge.style.color = "#f59e0b";
-      } else {
-        strengthBars.classList.add("level-3");
-        strengthBadge.textContent = "Strong";
-        strengthBadge.style.color = "#10b981";
+        bar1.style.backgroundColor = "var(--color-fair)";
+        bar2.style.backgroundColor = "var(--color-fair)";
+        strengthText.textContent = "Fair";
+        strengthText.style.color = "var(--color-fair)";
+      } else if (score === 3) {
+        bar1.style.backgroundColor = "var(--color-strong)";
+        bar2.style.backgroundColor = "var(--color-strong)";
+        bar3.style.backgroundColor = "var(--color-strong)";
+        strengthText.textContent = "Strong";
+        strengthText.style.color = "var(--color-strong)";
       }
+    }
+
+    // Attach to all input events to guarantee live update
+    ["input", "keyup", "change", "paste"].forEach(evt => {
+      newPwd.addEventListener(evt, () => setTimeout(updateStrength, 10));
     });
 
-    function getRecoveryToken() {
-      // 1. Try URL fragment hash (starts with #)
+    // Extract access_token from URL (Hash or Query)
+    function getAccessToken() {
       if (window.location.hash) {
         const hash = window.location.hash.substring(1);
         const params = new URLSearchParams(hash);
         const token = params.get("access_token");
         if (token) return token;
       }
-      // 2. Try URL search params (starts with ?)
       if (window.location.search) {
         const params = new URLSearchParams(window.location.search);
         const token = params.get("access_token");
@@ -678,39 +613,41 @@
       return null;
     }
 
-    // Check for error descriptions in URL
+    // Check if recovery link carried an error
     (function checkUrlErrors() {
       const allParams = new URLSearchParams(window.location.search + "&" + window.location.hash.substring(1));
       const errorDesc = allParams.get("error_description");
       if (errorDesc) {
-        showAlert("Link error: " + decodeURIComponent(errorDesc.replace(/\+/g, " ")), "error");
+        showAlert("Link error: " + decodeURIComponent(errorDesc.replace(/\+/g, " ")));
       }
     })();
 
-    form.addEventListener("submit", async (e) => {
+    // Form Submit Handler
+    resetForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const pwd = document.getElementById("new-password").value.trim();
-      const confirmPwd = document.getElementById("confirm-password").value.trim();
+      hideAlert();
+
+      const pwd = newPwd.value.trim();
+      const cpwd = confirmPwd.value.trim();
 
       if (pwd.length < 6) {
-        showAlert("Password must be at least 6 characters long.", "error");
+        showAlert("Password must be at least 6 characters.");
         return;
       }
 
-      if (pwd !== confirmPwd) {
-        showAlert("Passwords do not match. Please ensure both fields are identical.", "error");
+      if (pwd !== cpwd) {
+        showAlert("Passwords do not match.");
         return;
       }
 
       submitBtn.disabled = true;
       btnSpinner.style.display = "block";
-      btnText.textContent = "Updating Password...";
-      alertBox.style.display = "none";
+      btnText.textContent = "Saving...";
 
       try {
-        let token = getRecoveryToken();
+        let token = getAccessToken();
 
-        // If not directly in URL, check Supabase local session
+        // Fallback: check Supabase session
         if (!token) {
           try {
             const { data } = await supabase.auth.getSession();
@@ -719,14 +656,14 @@
         }
 
         if (!token) {
-          showAlert("Recovery link has expired or is invalid. Please request a new password reset email.", "error");
+          showAlert("Reset session has expired or is missing. Please click the link in your email again.");
           submitBtn.disabled = false;
           btnSpinner.style.display = "none";
-          btnText.textContent = "Update Password";
+          btnText.textContent = "Save password";
           return;
         }
 
-        // Direct authenticated request to Supabase Auth API
+        // Direct authenticated request to Supabase API
         const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
           method: "PUT",
           headers: {
@@ -740,22 +677,23 @@
         const resData = await response.json();
 
         if (!response.ok) {
-          const errMsg = resData.msg || resData.message || resData.error_description || "Failed to update password.";
-          showAlert(errMsg, "error");
+          const errMsg = resData.msg || resData.message || resData.error_description || "Could not update password.";
+          showAlert(errMsg);
           submitBtn.disabled = false;
           btnSpinner.style.display = "none";
-          btnText.textContent = "Update Password";
+          btnText.textContent = "Save password";
           return;
         }
 
-        // Password updated successfully! Reveal success panel inside the card
-        formPanel.style.display = "none";
-        successPanel.style.display = "block";
+        // Success: Card stays intact, form hides, success panel reveals inside the card
+        formSection.style.display = "none";
+        successSection.style.display = "block";
+
       } catch (err) {
-        showAlert("An unexpected error occurred: " + err.message, "error");
+        showAlert("An unexpected error occurred: " + err.message);
         submitBtn.disabled = false;
         btnSpinner.style.display = "none";
-        btnText.textContent = "Update Password";
+        btnText.textContent = "Save password";
       }
     });
   </script>
